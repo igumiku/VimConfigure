@@ -18,9 +18,14 @@ Plugin 'tpope/vim-fugitive'
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
 Plugin 'git://git.wincent.com/command-t.git'
+
+" js
 Plugin 'pangloss/vim-javascript'
-Plugin 'scrooloose/nerdtree' " 加入NERDTree
+Plugin 'maksimr/vim-jsbeautify'
 Plugin 'leafgarland/typescript-vim' " typrscript
+
+" tools 
+Plugin 'scrooloose/nerdtree' " 加入NERDTree
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -45,3 +50,51 @@ let g:javascript_plugin_jsdoc = 1
 :map <D-b> :NERDTree<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+" js code fomatter
+map <c-f> :call JsBeautify()<cr>
+" or
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+" for json
+autocmd FileType json noremap <buffer> <c-f> :call JsonBeautify()<cr>
+" for jsx
+autocmd FileType jsx noremap <buffer> <c-f> :call JsxBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+" quit BERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" 代码折叠
+set foldmethod=syntax
+
+" 打开文件是默认不折叠代码
+set foldlevelstart=99       
+
+" Quit insert mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+inoremap kk <Esc>
+
+" Quit visual mode
+vnoremap v <Esc>
+
+" Auto {}
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap { {}<Esc>i
+inoremap " ""<Esc>i
+
+" z to delete
+" "nnoremap z i<BS><Esc>l
+
+" ,, to out {}
+imap ,, <Esc>la
+
+set scrolloff=5
+
+" 设置默认进行大小写不敏感查找
+set ignorecase
+" 如果有一个大写字母，则切换到大小写敏感查找
+set smartcase 
